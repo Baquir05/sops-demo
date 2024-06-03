@@ -27,6 +27,6 @@ jobs:
           chmod +x sops-v3.7.1.linux
           ./sops-v3.7.1.linux -d sops/my-aws-account/secrets.json > secrets.json
  
-      - name: Create new KMS key (Sample Operation)
+      - name: Create new KMS key
         run: |
           aws kms create-key --description "My new key" --output text
