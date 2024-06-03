@@ -20,19 +20,13 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
-  decrypt:
-    runs-on: ubuntu-latest
-
-    steps:
+  
       - name: Decrypt secrets
         run: |
           wget https://github.com/mozilla/sops/releases/download/v3.7.1/sops-v3.7.1.linux
           chmod +x sops-v3.7.1.linux
           ./sops-v3.7.1.linux -d sops/my-aws-account/secrets.json > secrets.json
-  create-kms:
-    runs-on: ubuntu-latest
-
-    steps:
+ 
       - name: Create new KMS key (Sample Operation)
         run: |
           aws kms create-key --description "My new key" --output text
