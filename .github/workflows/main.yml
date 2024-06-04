@@ -26,6 +26,8 @@ jobs:
           wget https://github.com/mozilla/sops/releases/download/v3.7.1/sops-v3.7.1.linux
           chmod +x sops-v3.7.1.linux
           ./sops-v3.7.1.linux -d sops/my-aws-account/secrets.json > secrets.json
+          echo "Decrypted secrets:"
+          cat secrets.json
  
       - name: Create new KMS key
         run: |
