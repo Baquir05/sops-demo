@@ -18,7 +18,7 @@ jobs:
         run: |
           wget https://github.com/mozilla/sops/releases/download/v3.7.1/sops-v3.7.1.linux
           chmod +x sops-v3.7.1.linux
-          ./sops-v3.7.1.linux -d sops/my-aws-account/secrets.json > decrypted_secret.json
+          ./sops-v3.7.1.linux -d --kms "arn:aws:kms:us-east-1:934076056444:key/c28a6a3b-2904-4c9f-b8b8-c625a64e4e63" sops/my-aws-account/secrets.json > decrypted_secret.json
 
       - name: Configure AWS CLI with Decrypted Secret
         run: |
