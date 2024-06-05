@@ -37,7 +37,7 @@ jobs:
         working-directory: terraform
 
       - name: Terraform Apply
-        run: terraform apply -auto-approve -var="bucket_name=my-unique-bucket-name"
+        run: terraform apply -auto-approve -var="bucket_name=baquir-bucket"
         working-directory: terraform  
 
       
