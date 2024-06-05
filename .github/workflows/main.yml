@@ -34,10 +34,10 @@ jobs:
 
       - name: Terraform Init
         run: terraform init
-        working-directory: terraform
+        working-directory: sops/terraform
 
       - name: Terraform Apply
         run: terraform apply -auto-approve -var="bucket_name=baquir-bucket"
-        working-directory: terraform  
+        working-directory: sops/terraform 
 
       
