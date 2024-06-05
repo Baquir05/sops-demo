@@ -14,19 +14,21 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Decrypt SOPS-encrypted Secret
+      - name: Setup AWS CLI
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+  
+      - name: Decrypt secrets
         run: |
           wget https://github.com/mozilla/sops/releases/download/v3.7.1/sops-v3.7.1.linux
           chmod +x sops-v3.7.1.linux
-          ./sops-v3.7.1.linux -d --kms "arn:aws:kms:us-east-1:934076056444:key/c28a6a3b-2904-4c9f-b8b8-c625a64e4e63" sops/my-aws-account/secrets.json > decrypted_secret.json
-
-      - name: Configure AWS CLI with Decrypted Secret
-        run: |
-          decrypted_secret=$(cat decrypted_secret.json)
-          aws configure set aws_access_key_id "$(echo $decrypted_secret | jq -r '.aws_access_key_id')"
-          aws configure set aws_secret_access_key "$(echo $decrypted_secret | jq -r '.aws_secret_access_key')"
-          aws configure set default.region "us-east-1"  # Update with your desired region
-
+          ./sops-v3.7.1.linux -d sops/my-aws-account/secrets.json > secrets.json
+          echo "Decrypted secrets:"
+          cat secrets.json
+ 
       - name: Create new KMS key
         run: |
           aws kms create-key --description "My new key" --output text
